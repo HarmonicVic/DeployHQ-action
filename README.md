@@ -11,11 +11,13 @@ All sensitive variables should be [set as encrypted secrets](https://help.github
 
 | Key                        | Value                                                                                                                                                                                                                         | Suggested Type | Required |
 |----------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------| ------------- | ------------- |
-| `DEPLOYHQ_SUBDOMAIN`      | **Required.** Your DeployHQ subdomain. For example, if your url is `https://cocacola.deployhq.com`, then it's `cocacola`.                                                                                                   | `secret` | **Yes** |
-| `DEPLOYHQ_API_TOKEN`      | **Required.** The Api Token that will be used for authentication, which can be found in the right sidebar of your domain's overview page on the DeployHQ dashboard. For example, `a74b8262ebae565e7572b37a94b11e27decadf05`. | `secret` | **Yes** |
-| `DEPLOYHQ_PROJECT_ID` | **Required.** The DeployHQ Project ID in which the deployment will be triggered. For example, `1`.                                                                                                                       | `secret` | **Yes** |
-| `DEPLOY_FROM_SCRATCH`      | **Optional.** Specifies if the deployment should be done from scratch or not. By default it's false.                                                                                                                          | `env` | No |
-| `TRIGGER_NOTIFICATIONS`    | **Optional.** Specifies if the deployment should trigger notifications or not. By default it's true.                                                                                                                          | `env` | No |
+| `DEPLOYHQ_USER_ID`      | **Required.** Your DeployHQ user. For example, `adam@atechmedia.com`.                                                                                                                                                            | `secret` | **Yes** |
+| `DEPLOYHQ_API_TOKEN`      | **Required.** The Api Token that will be used for authentication, which can be found in your DeployHQ Dashboard, under `Settings` >> `Security`. For example, `a74b8262ebae565e7572b37a94b11e27decadf05`.                      | `secret` | **Yes** |
+| `DEPLOYHQ_SUBDOMAIN`      | **Required.** Your DeployHQ subdomain. For example, if your url is `https://matias.deployhq.com`, then it's `matias`.                                                                                                          | `secret` | **Yes** |
+| `DEPLOYHQ_PROJECT_ID` | **Required.** The DeployHQ Project ID in which the deployment will be triggered. For example, if they URL to your project is `https://matias.deployhq.com/projects/italy`, then this variable would be `italy`.                    | `secret` | **Yes** |                                                                                                   | `secret` | **Yes** |
+| `DEPLOYHQ_PARENT_ID`      | **Required.** The server (or server group) to which you're deploying.                                                                                                                                                          | `secret` | **Yes** |
+| `DEPLOYHQ_START_REVISION`    | **Required.** The start revision of the deployment (a blank value can be sent if you wish to deploy the entire branch).                                                                                                     | `env` | **Yes** |
+| `DEPLOYHQ_END_REVISION`    | **Required.** The end revision of the deployment.                                                                                                                                                                             | `env` | **Yes** |
 
 
 ### `workflow.yml` Example
@@ -33,12 +35,14 @@ jobs:
 
     # Put steps here to build your site, deploy it to a service, etc.
     - name: Trigger deployment in DeployHQ
-      uses: facundofarias/deployHQ-action@main
+      uses: HarmonicVic/DeployHQ-action@main
       env:
         # All these values should be set as encrypted secrets in your repository settings
-        DEPLOYHQ_SUBDOMAIN: ${{ secrets.DEPLOYHQ_SUBDOMAIN }}
+        DEPLOYHQ_USER_ID: ${{ secrets.DEPLOYHQ_USER_ID }}
         DEPLOYHQ_API_TOKEN: ${{ secrets.DEPLOYHQ_API_TOKEN }}
-        DEPLOYHQ_PROJECT_ID: ${{ secrets.DEPLOYHQ_PROJECT_ID }}
+        DEPLOYHQ_SUBDOMAIN: ${{ secrets.DEPLOYHQ_SUBDOMAIN }}
+        DEPLOYHQ_PROJECT_ID: ${{ secrets.DEPLOYHQ_PROJECT_ID }} 
+        DEPLOYHQ_PARENT_ID: ${{ secrets.DEPLOYHQ_PARENT_ID }}
 ```
 
 ## License
