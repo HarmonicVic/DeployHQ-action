@@ -1,0 +1,9 @@
+name: "DeployHQ - Trigger a Deployment"
+description: "Trigger a given deployment using DeployHQ's API."
+author: facundofarias
+runs:
+  using: docker
+  image: Dockerfile
+branding:
+  color: purple
+  icon: upload-cloud
