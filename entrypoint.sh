@@ -41,7 +41,7 @@ fi
 
 # Check if Start revision is set (Required). 
 # Can be set to blank for a complete deployment.
-if [ -z "$DEPLOYHQ_START_REVISION" ]; then
+if [ -z "$DEPLOYHQ_START_REVISION" ] && [ "$DEPLOYHQ_START_REVISION" != "" ]; then
   echo "DEPLOYHQ_START_REVISION is not set. Quitting."
   exit 1
 fi
@@ -64,14 +64,15 @@ fi
 #   TRIGGER_NOTIFICATIONS='true'
 # fi
 
-set -- --data '{"deployment":{ "parent_identifier":'"${DEPLOYHQ_PARENT_ID}"',"start_revision":'"${DEPLOYHQ_START_REVISION}"',"end_revision":'"${DEPLOYHQ_END_REVISION}"'}}'
+set -- --data '{"deployment":{ "parent_identifier":"'"${DEPLOYHQ_PARENT_ID}"'","start_revision":"'"${DEPLOYHQ_START_REVISION}"'","end_revision":"'"${DEPLOYHQ_END_REVISION}"'"}}'
 
 ######## Call the API and store the response for later. ########
 # API docs: https://www.deployhq.com/support/api/deployments/create-a-new-deployment
-HTTP_RESPONSE=$(curl -sS "https://${DEPLOYHQ_SUBDOMAIN}.deployhq.com/projects/${$DEPLOYHQ_PROJECT_ID}/deployments/" \
+ 
+HTTP_RESPONSE=$(curl -sS "https://${DEPLOYHQ_SUBDOMAIN}.deployhq.com/projects/${DEPLOYHQ_PROJECT_ID}/deployments/" \
                     -H "Content-type: application/json" \
                     -H "Accept: application/json" \
-                    --user ${DEPLOYHQ_USER_ID}:${DEPLOYHQ_API_TOKEN}" \
+                    --user "${DEPLOYHQ_USER_ID}:${DEPLOYHQ_API_TOKEN}" \
                     -w "HTTP_STATUS:%{http_code}" \
                     "$@")
 
@@ -79,6 +80,7 @@ HTTP_RESPONSE=$(curl -sS "https://${DEPLOYHQ_SUBDOMAIN}.deployhq.com/projects/${
 
 # Store result and HTTP status code separately to appropriately throw CI errors.
 # https://gist.github.com/maxcnunes/9f77afdc32df354883df
+
 HTTP_BODY=$(echo "${HTTP_RESPONSE}" | sed -E 's/HTTP_STATUS\:[0-9]{3}$//')
 HTTP_STATUS=$(echo "${HTTP_RESPONSE}" | tr -d '\n' | sed -E 's/.*HTTP_STATUS:([0-9]{3})$/\1/')
 
