@@ -6,7 +6,7 @@ LABEL "com.github.actions.icon"="upload-cloud"
 LABEL "com.github.actions.color"="purple"
 
 LABEL version="0.0.1"
-LABEL repository="https://github.com/HarmonicVic/deployHQ-action"
+LABEL repository="https://github.com/viktodorov/deployHQ-action"
 LABEL homepage="https://www.deployhq.com/"
 LABEL maintainer="Support DeployHQ <support@deployhq.com>"
 
