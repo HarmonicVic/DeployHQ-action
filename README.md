@@ -16,8 +16,8 @@ All sensitive variables should be [set as encrypted secrets](https://help.github
 | `DEPLOYHQ_SUBDOMAIN`      | **Required.** Your DeployHQ subdomain. For example, if your url is `https://matias.deployhq.com`, then it's `matias`.                                                                                                          | `secret` | **Yes** |
 | `DEPLOYHQ_PROJECT_ID` | **Required.** The DeployHQ Project ID in which the deployment will be triggered. For example, if they URL to your project is `https://matias.deployhq.com/projects/italy`, then this variable would be `italy`.                    | `secret` | **Yes** |                                                                                                   | `secret` | **Yes** |
 | `DEPLOYHQ_PARENT_ID`      | **Required.** The server (or server group) to which you're deploying.                                                                                                                                                          | `secret` | **Yes** |
-| `DEPLOYHQ_START_REVISION`    | **Required.** The start revision of the deployment (a blank value can be sent if you wish to deploy the entire branch).                                                                                                     | `env` | **Yes** |
-| `DEPLOYHQ_END_REVISION`    | **Required.** The end revision of the deployment.                                                                                                                                                                             | `env` | **Yes** |
+| `DEPLOYHQ_START_REVISION`    | **Required.** The start revision of the deployment (a blank value can be sent if you wish to deploy the entire branch).                                                                                                     | `secret` | **Yes** |
+| `DEPLOYHQ_END_REVISION`    | **Required.** The end revision of the deployment.                                                                                                                                                                             | `secret` | **Yes** |
 
 
 ### `workflow.yml` Example
@@ -43,6 +43,8 @@ jobs:
         DEPLOYHQ_SUBDOMAIN: ${{ secrets.DEPLOYHQ_SUBDOMAIN }}
         DEPLOYHQ_PROJECT_ID: ${{ secrets.DEPLOYHQ_PROJECT_ID }} 
         DEPLOYHQ_PARENT_ID: ${{ secrets.DEPLOYHQ_PARENT_ID }}
+        DEPLOYHQ_START_REVISION: ${{ secrets.DEPLOYHQ_START_REVISION }}
+        DEPLOYHQ_END_REVISION: ${{ secrets.DEPLOYHQ_END_REVISION }}
 ```
 
 ## License
