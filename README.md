@@ -35,7 +35,7 @@ jobs:
 
     # Put steps here to build your site, deploy it to a service, etc.
     - name: Trigger deployment in DeployHQ
-      uses: HarmonicVic/DeployHQ-action@main
+      uses: viktodorov/deployhq-action@main
       env:
         # All these values should be set as encrypted secrets in your repository settings
         DEPLOYHQ_USER_ID: ${{ secrets.DEPLOYHQ_USER_ID }}
